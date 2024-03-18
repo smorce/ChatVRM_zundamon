@@ -15,7 +15,7 @@ export async function style_bert_vits2(
   noisew: number = 0.8,
   length: number = 0.8,
   language: string = 'JP',
-  auto_split: boolean = true,
+  auto_split: string = 'true',
   split_interval: number = 1,
   assist_text: string | null = null,
   assist_text_weight: number = 1.0,
@@ -25,15 +25,7 @@ export async function style_bert_vits2(
   given_tone: boolean = false
 ): Promise<string> { // Base64エンコードされた文字列を返す
 
-  // URLを構築し、クエリパラメータ`text`を追加
-  // ★URL は毎回書き換える
-  const PUBLIC_URL = "https://f431-34-90-206-27.ngrok-free.app";
-  const url = new URL(`${PUBLIC_URL}/voice`);
-  url.searchParams.append('text', message); // `message`をクエリパラメータに追加
-
-  const param = {
-    method: "POST",
-    body: JSON.stringify({
+  const params = {
       // text: message,                            // 変換するテキスト（エラーが出るので、ここでは入れずにURLに含めるようにした）
       speaker_id: speaker_id,                    // 話者のID
       sdp_ratio: sdp_ratio,                      // SDP（Stochastic Duration Predictor）とDP（Duration Predictor）の混合比率
@@ -41,7 +33,7 @@ export async function style_bert_vits2(
       noisew: noisew,                            // SDPノイズの割合（発音の間隔のばらつきを増加させる）
       length: length,                            // 話速（1が標準）
       language: language,                        // テキストの言語
-      auto_split: auto_split.toString(),         // booleanを文字列に変換。自動でテキストを分割するか
+      auto_split: auto_split,                    // 自動でテキストを分割するか
       split_interval: split_interval,            // 分割した際の無音区間の長さ（秒）
       assist_text: assist_text,                  // 補助テキスト（読み上げと似た声音・感情になりやすい）
       assist_text_weight: assist_text_weight,    // 補助テキストの影響の強さ
@@ -49,15 +41,24 @@ export async function style_bert_vits2(
       style_weight: style_weight,                // スタイルの強さ
       reference_audio_path: reference_audio_path,   // 参照オーディオパス（スタイルを音声ファイルで指定）
       given_tone: given_tone                     // トーン指定の有無
-    }),
-    headers: {
-      // リクエストのヘッダー
-      "Content-Type": "application/json",
     },
-  };
+
+    
+  // URLを構築し、クエリパラメータ`text`を追加
+  // ★URL は毎回書き換える
+  const PUBLIC_URL = "https://f431-34-90-206-27.ngrok-free.app";
+  const url = new URL(`${PUBLIC_URL}/voice`);
+  url.searchParams.append('text', message); // `message`をクエリパラメータに追加
+
 
   // `fetch`を使用してAPIリクエストを送信、URLにクエリパラメータを含める
-  const response = await fetch(url.toString(), param);
+  const response = await fetch(url.toString(), {
+    method: 'POST',
+    body: JSON.stringify(params),
+    headers: {
+        'Content-Type': 'application/json'
+    }
+  });
 
   if (!response.ok) {
     throw new Error(`Request failed: ${response.status}`);
