@@ -52,7 +52,7 @@ export async function style_bert_vits2(
     }),
     headers: {
       // リクエストのヘッダー
-      "Content-Type": "application/json; charset=UTF-8",
+      "Content-Type": "application/json",
     },
   };
 
