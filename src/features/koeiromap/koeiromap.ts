@@ -92,6 +92,7 @@ export async function style_bert_vits2(
     // Blobからオーディオを生成し、再生する
     const url = URL.createObjectURL(blob);
     console.log("ccc")  // ここまではいった
+    console.log(url)
 
 
     // ダウンロードリンクを作成
