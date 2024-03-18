@@ -217,6 +217,8 @@ export default function Home() {
         handleClickResetSystemPrompt={() => setSystemPrompt(SYSTEM_PROMPT)}
         // onChangeKoeiromapKey={setKoeiromapKey}
       />
+      {/* デバッグ 音声を再生するためのaudio要素を追加 */}
+      <audio id="audioPlayer" controls hidden></audio>
       {/* <GitHubLink /> */}
     </div>
   );
