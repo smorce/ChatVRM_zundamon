@@ -11,7 +11,7 @@ export async function synthesizeVoice(
   noisew: number,
   length: number,
   language: string,
-  auto_split: boolean,
+  auto_split: string,     // string に変更
   split_interval: number,
   assist_text: string | null,
   assist_text_weight: number,

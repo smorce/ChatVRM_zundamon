@@ -33,7 +33,7 @@ export async function style_bert_vits2(
       noisew: noisew,                            // SDPノイズの割合（発音の間隔のばらつきを増加させる）
       length: length,                            // 話速（1が標準）
       language: language,                        // テキストの言語
-      auto_split: auto_split.toString(),         // booleanをstringに変換。自動でテキストを分割するか
+      auto_split: auto_split,                    // 自動でテキストを分割するか
       split_interval: split_interval,            // 分割した際の無音区間の長さ（秒）
       assist_text: assist_text,                  // 補助テキスト（読み上げと似た声音・感情になりやすい）
       assist_text_weight: assist_text_weight,    // 補助テキストの影響の強さ
