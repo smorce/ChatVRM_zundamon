@@ -27,16 +27,16 @@ export async function getChatResponse(messages: Message[], apiKey: string) {
 }
 
 export async function getChatResponseStream(
-  messages: Message[],
-  apiKey: string
+  messages: Message[]
+  // apiKey: string
 ) {
-  if (!apiKey) {
-    throw new Error("Invalid API Key");
-  }
+  // if (!apiKey) {
+  //   throw new Error("Invalid API Key");
+  // }
 
   const headers: Record<string, string> = {
-    "Content-Type": "application/json",
-    Authorization: `Bearer ${apiKey}`,
+    "Content-Type": "application/json"
+    // Authorization: `Bearer ${apiKey}`,
   };
   // ★URL は毎回書き換える
   const PUBLIC_URL = "https://bdb7-34-133-21-83.ngrok-free.app";

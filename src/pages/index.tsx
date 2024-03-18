@@ -77,10 +77,10 @@ export default function Home() {
    */
   const handleSendChat = useCallback(
     async (text: string) => {
-      if (!openAiKey) {
-        setAssistantMessage("APIキーが入力されていません");
-        return;
-      }
+      // if (!openAiKey) {
+      //   setAssistantMessage("APIキーが入力されていません");
+      //   return;
+      // }
 
       const newMessage = text;
 
@@ -103,7 +103,8 @@ export default function Home() {
         ...messageLog,
       ];
 
-      const stream = await getChatResponseStream(messages, openAiKey).catch(
+      // const stream = await getChatResponseStream(messages, openAiKey).catch(
+        const stream = await getChatResponseStream(messages).catch(
         (e) => {
           console.error(e);
           return null;
@@ -181,7 +182,8 @@ export default function Home() {
       setChatLog(messageLogAssistant);
       setChatProcessing(false);
     },
-    [systemPrompt, chatLog, handleSpeakAi, openAiKey, koeiroParam]
+    // [systemPrompt, chatLog, handleSpeakAi, openAiKey, koeiroParam]
+    [systemPrompt, chatLog, handleSpeakAi, koeiroParam]
   );
 
   return (
@@ -199,7 +201,7 @@ export default function Home() {
         onChatProcessStart={handleSendChat}
       />
       <Menu
-        openAiKey={openAiKey}
+        // openAiKey={openAiKey}
         systemPrompt={systemPrompt}
         chatLog={chatLog}
         koeiroParam={koeiroParam}
