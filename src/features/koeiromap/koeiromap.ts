@@ -99,13 +99,24 @@ export async function style_bert_vits2(
   function blobToBase64(blob: Blob): Promise<string> {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
+      
+      // reader.onload = () => {
+      //   const base64data = reader.result as string;
+      //   const base64Encoded = base64data.split(',')[1];
+      //   resolve(base64Encoded);
+      // };
+
       reader.onload = () => {
-        const base64data = reader.result as string;
-        const base64Encoded = base64data.split(',')[1];
-        resolve(base64Encoded);
+        const binaryStr = reader.result;
+        if (binaryStr !== null) {
+          console.log("Blob contents (first 100 bytes):", binaryStr.slice(0, 100));
+        } else {
+          console.error("Failed to read blob as binary string");
+        }
       };
+
       reader.onerror = (event) => {
-        console.error("Failed to read blob as base64", event);
+        console.error("Error reading blob as binary string:", event);
         reject("Failed to read blob as base64");      
       };
       reader.readAsDataURL(blob);
