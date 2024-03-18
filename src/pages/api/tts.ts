@@ -1,12 +1,18 @@
 import { style_bert_vits2 } from "@/features/koeiromap/koeiromap";
 
+console.log(`TTS: デバッグ出力 aaa`);
+
 import type { NextApiRequest, NextApiResponse } from "next";
+
+console.log(`TTS: デバッグ出力 bbb`);
 
 // Data型を拡張して、エラー情報をオプショナルで持てるようにします。
 type Data = {
   audio?: string;
   error?: string;
 };
+
+console.log(`TTS: デバッグ出力 ccc`);
 
 export default async function handler(
   req: NextApiRequest,
