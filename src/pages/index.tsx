@@ -159,7 +159,7 @@ export default function Home() {
             /^(.+[。．！？\n]|.{10,}[、,])/
           );
           if (sentenceMatch && sentenceMatch[0]) {
-            const sentence = sentenceMatch[0];
+            let sentence = sentenceMatch[0];         // replace したかったので const から let に変更
             sentences.push(sentence);
             receivedMessage = receivedMessage
               .slice(sentence.length)
