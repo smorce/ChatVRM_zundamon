@@ -92,7 +92,30 @@ export async function style_bert_vits2(
     // Blobからオーディオを生成し、再生する
     const url = URL.createObjectURL(blob);
     console.log("ccc")  // ここまではいった
+
+
+    // ダウンロードリンクを作成
+    const downloadLink = document.createElement('a');
+    downloadLink.href = url;
+    downloadLink.download = 'audiofile.wav'; // 保存するファイルの名前
+
+    // リンクをドキュメントに追加してクリックする（ユーザーに見えないようにすることも可能）
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+
+    // リンクをドキュメントから削除
+    document.body.removeChild(downloadLink);
+
+    // 使用済みのURLを解放
+    URL.revokeObjectURL(url);
+
+
+
+
+
+
     // 既存の<audio>要素を使用する
+    // 非同期処理が問題になっている
     const audioPlayer = document.getElementById('audioPlayer') as HTMLAudioElement;
     console.log("ddd")
     if (audioPlayer) {
