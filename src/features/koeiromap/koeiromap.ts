@@ -12,18 +12,23 @@
 function blobToBase64(blob: Blob): Promise<string> {
   return new Promise((resolve, reject) => {
     const fileReader = new FileReader();
-    console.log(`fileReader１: ${fileReader}`);
+    console.log(`fileReader1: ${fileReader}`);
+
     fileReader.onload = () => {
+      console.log(`fileReader.onload: ${fileReader.result}`);
       resolve(fileReader.result as string);
     };
+
     fileReader.onerror = (error) => {
-      console.log(`error: ${error}`);
+      console.log(`fileReader.onerror: ${error}`);
       reject(error);
     };
-    console.log(`fileReader２: ${fileReader}`);
+
+    console.log(`fileReader2: ${fileReader}`);
     fileReader.readAsDataURL(blob);
   });
 }
+
 
 
 
