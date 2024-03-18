@@ -84,28 +84,55 @@ export async function style_bert_vits2(
   console.log(`Blob type: ${blob.type}`);
   console.log(`Blob size: ${blob.size}`);
   
-  // → Blob type: audio/wav
-  // → Blob size: 74796
-  // ちゃんとできてそう
+  const base64Encoded = await blobToBase64(blob);
+  console.log(`結果を返す前にBase64エンコードされた最初の10文字を確認: ${base64Encoded.slice(0, 10)}`);
+  return base64Encoded;
   
   // BlobをBase64エンコードされた文字列に変換
-  return new Promise<string>((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => {
-      // FileReaderが完了したら結果を取得
-      const base64data = reader.result as string;
-      // データURLスキーマのプレフィックスを削除して、純粋なBase64文字列を取得(最初の10文字)
-      const base64Encoded = base64data.split(',')[1];
-      // 結果をコンソールに表示
-      console.log(`結果を返す前にBase64エンコードされた最初の10文字を確認: ${base64Encoded.slice(0, 10)}`);
-      // 結果を返す
-      resolve(base64Encoded);
-    };
-    reader.onerror = () => {
-      console.error("Failed to read blob as base64");
-      reject("Failed to read blob as base64");
-    };
-    // FileReaderでBlobを読み込む
-    reader.readAsDataURL(blob);
-  });
+  function blobToBase64(blob: Blob): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const base64data = reader.result as string;
+        const base64Encoded = base64data.split(',')[1];
+        resolve(base64Encoded);
+      };
+      reader.onerror = () => {
+        console.error("Failed to read blob as base64");
+        reject("Failed to read blob as base64");
+      };
+      reader.readAsDataURL(blob);
+    });
+  }
 }
+
+
+
+//   // → Blob type: audio/wav
+//   // → Blob size: 74796
+//   // ちゃんとできてそう
+  
+//   // BlobをBase64エンコードされた文字列に変換
+//   return new Promise<string>((resolve, reject) => {
+//     const reader = new FileReader();
+
+    
+//     // onloadend の代わりに onload イベントハンドラを使用してみて、それが正常にトリガーされるかどうかを確認
+//     reader.onload = () => {
+//       // FileReaderが完了したら結果を取得
+//       const base64data = reader.result as string;
+//       // データURLスキーマのプレフィックスを削除して、純粋なBase64文字列を取得(最初の10文字)
+//       const base64Encoded = base64data.split(',')[1];
+//       // 結果をコンソールに表示
+//       console.log(`結果を返す前にBase64エンコードされた最初の10文字を確認: ${base64Encoded.slice(0, 10)}`);
+//       // 結果を返す
+//       resolve(base64Encoded);
+//     };
+//     reader.onerror = () => {
+//       console.error("Failed to read blob as base64");
+//       reject("Failed to read blob as base64");
+//     };
+//     // FileReaderでBlobを読み込む
+//     reader.readAsDataURL(blob);
+//   });
+// }
