@@ -91,24 +91,23 @@ export async function style_bert_vits2(
   console.log(`Blob size: ${blob.size}`);
   
   // Convert Blob to Base64
+
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
-    
-    console.log(reader);
-
     reader.onloadend = () => {
-      // The result includes the content type as a data URL prefix. To get only the Base64 string, 
-      // you might need to strip this prefix depending on your use case.
-      const base64String = reader.result;
-      console.log(`デバッグ: ${base64String}`);
-      resolve(base64String);
+      // `result`が`string`型の場合のみ、resolveする
+      console.log(`reader.result: ${reader.result}`);
+
+      if (typeof reader.result === 'string') {
+        resolve(reader.result);
+      } else {
+        reject(new Error('読み込まれたデータは文字列ではありません。'));
+      }
     };
-    reader.onerror = reject;
+    reader.onerror = () => reject(reader.error);
     reader.readAsDataURL(blob);
   });
 }
-
-
 
   
   // const base64Encoded = await blobToBase64(blob);
