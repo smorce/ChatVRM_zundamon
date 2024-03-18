@@ -86,12 +86,12 @@ export async function style_bert_vits2(
   
   // 音声を取得して再生する関数内の一部を変更
   if (response.ok) {
-    console.log("aaa")   // ここまではいった
+    console.log("aaa") 
     // const blob = await response.blob();
     console.log("bbb")
     // Blobからオーディオを生成し、再生する
     const url = URL.createObjectURL(blob);
-    console.log("ccc")
+    console.log("ccc")  // ここまではいった
     // 既存の<audio>要素を使用する
     const audioPlayer = document.getElementById('audioPlayer') as HTMLAudioElement;
     console.log("ddd")

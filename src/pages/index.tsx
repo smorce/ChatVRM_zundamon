@@ -16,6 +16,21 @@ import { Menu } from "@/components/menu";
 import { GitHubLink } from "@/components/githubLink";
 import { Meta } from "@/components/meta";
 
+
+// デバッグ ================================
+import React, { useRef } from 'react';
+
+export default function Home() {
+  const audioRef = useRef<HTMLAudioElement>(null);
+
+  const playAudio = () => {
+    if (audioRef.current) {
+      audioRef.current.play();
+    }
+  };
+// デバッグ ================================
+
+
 export default function Home() {
   const { viewer } = useContext(ViewerContext);
 
@@ -218,7 +233,8 @@ export default function Home() {
         // onChangeKoeiromapKey={setKoeiromapKey}
       />
       {/* デバッグ 音声を再生するためのaudio要素を追加 */}
-      <audio id="audioPlayer" controls hidden></audio>
+      <audio ref={audioRef} id="audioPlayer" controls hidden></audio>
+      <button onClick={playAudio}>Play Audio</button>
       {/* <GitHubLink /> */}
     </div>
   );
