@@ -16,7 +16,7 @@ type Props = {
   systemPrompt: string;
   chatLog: Message[];
   koeiroParam: KoeiroParam;
-  koeiromapKey: string;
+  // koeiromapKey: string;
   onClickClose: () => void;
   onChangeAiKey: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onChangeSystemPrompt: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
@@ -25,14 +25,14 @@ type Props = {
   onClickOpenVrmFile: () => void;
   onClickResetChatLog: () => void;
   onClickResetSystemPrompt: () => void;
-  onChangeKoeiromapKey: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  // onChangeKoeiromapKey: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 export const Settings = ({
   // openAiKey,
   chatLog,
   systemPrompt,
   koeiroParam,
-  koeiromapKey,
+  // koeiromapKey,
   onClickClose,
   onChangeSystemPrompt,
   onChangeAiKey,
@@ -41,7 +41,7 @@ export const Settings = ({
   onClickOpenVrmFile,
   onClickResetChatLog,
   onClickResetSystemPrompt,
-  onChangeKoeiromapKey,
+  // onChangeKoeiromapKey,
 }: Props) => {
   return (
     <div className="absolute z-40 w-full h-full bg-white/80 backdrop-blur ">
@@ -113,7 +113,7 @@ export const Settings = ({
               />
               をご覧ください。
             </div>
-            <div className="mt-16 font-bold">API キー</div>
+            {/* <div className="mt-16 font-bold">API キー</div>
             <div className="mt-8">
               <input
                 className="text-ellipsis px-16 py-8 w-col-span-2 bg-surface1 hover:bg-surface1-hover rounded-8"
@@ -122,7 +122,7 @@ export const Settings = ({
                 value={koeiromapKey}
                 onChange={onChangeKoeiromapKey}
               />
-            </div>
+            </div> */}
 
             <div className="mt-16 font-bold">プリセット</div>
             <div className="my-8 grid grid-cols-2 gap-[8px]">
