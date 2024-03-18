@@ -23,7 +23,7 @@ export async function style_bert_vits2(
   style_weight: number = 5.0,
   reference_audio_path: string | null = null,
   given_tone: boolean = false
-): Promise<string> {
+): Promise<Blob> {
   
   // Request body
   const body = {
