@@ -86,8 +86,8 @@ export async function style_bert_vits2(
   
   // 音声を取得して再生する関数内の一部を変更
   if (response.ok) {
-    console.log("aaa")
-    const blob = await response.blob();
+    console.log("aaa")   // ここまではいった
+    // const blob = await response.blob();
     console.log("bbb")
     // Blobからオーディオを生成し、再生する
     const url = URL.createObjectURL(blob);
