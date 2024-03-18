@@ -41,8 +41,7 @@ export async function style_bert_vits2(
       style_weight: style_weight,                // スタイルの強さ
       reference_audio_path: reference_audio_path,   // 参照オーディオパス（スタイルを音声ファイルで指定）
       given_tone: given_tone                     // トーン指定の有無
-    },
-
+    }
     
   // URLを構築し、クエリパラメータ`text`を追加
   // ★URL は毎回書き換える
