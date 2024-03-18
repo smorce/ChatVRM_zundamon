@@ -1,3 +1,5 @@
+// ここでBlobをBase64エンコーディングされたテキストに変換する
+
 import { style_bert_vits2 } from "@/features/koeiromap/koeiromap";
 
 console.log(`TTS: デバッグ出力 aaa`);
@@ -5,6 +7,22 @@ console.log(`TTS: デバッグ出力 aaa`);
 import type { NextApiRequest, NextApiResponse } from "next";
 
 console.log(`TTS: デバッグ出力 bbb`);
+
+
+// BlobをBase64エンコーディングされたテキストに変換する関数
+const blobToBase64 = (blob: Blob): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      resolve(reader.result as string);
+    };
+    reader.onerror = () => {
+      reject(new Error('BlobをBase64に変換中にエラーが発生しました'));
+    };
+    reader.readAsDataURL(blob);
+  });
+};
+
 
 // Data型を拡張して、エラー情報をオプショナルで持てるようにします。
 type Data = {
@@ -33,9 +51,10 @@ export default async function handler(
   const style_weight = req.body.style_weight;
   const reference_audio_path = req.body.reference_audio_path;
   const given_tone = req.body.given_tone;
+  
   try {
-    // `style_bert_vits2`関数を呼び出し、音声データのBase64エンコードされた文字列を取得します。
-    const base64EncodedAudio = await style_bert_vits2(
+    // `style_bert_vits2`関数を呼び出し、音声データのBlobを取得
+    const blob = await style_bert_vits2(
       message,
       speaker_id,
       sdp_ratio,
@@ -52,11 +71,16 @@ export default async function handler(
       reference_audio_path,
       given_tone
     );
-    // オプション: 長さが非常に大きい場合、全てをログに出力すると不便なため、
-    // 最初の数文字だけをログに出力することを検討してください。
-    console.log(`Sample of base64 audio: ${base64EncodedAudio.substring(0, 100)}...`);
-    // 成功したレスポンスをクライアントに返します。ココは元のコードと違っていて {} の辞書型にしないといけない
-    res.status(200).json({ audio: base64EncodedAudio });
+
+    // BlobをBase64エンコーディングされたテキストに変換し、コンソールに表示
+    blobToBase64(blob).then(base64 => {
+      // 最初の10文字だけ表示
+      console.log(`Base64エンコーディングされた音声データ: ${base64.substring(0, 10)}...`);
+    }).catch(error => {
+      console.error(error.message);
+    });
+    // 成功したレスポンスをクライアントに返します。本のコードの voice は { audio: base64 } というJSONデータ(keyがaudio, value の base64 がBase64エンコーディングされた音声データ)なので、こちらもJSONデータにする。
+    res.status(200).json({ audio: base64 });
   } catch (error) {
     // エラーハンドリング: エラーが発生した場合は、500のステータスコードとともにエラーメッセージを返します。
     res.status(500).json({ error: error instanceof Error ? error.message : "Unknown error" });

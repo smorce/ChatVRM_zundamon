@@ -21,7 +21,7 @@ export async function synthesizeVoiceApi(
   // Free向けに感情を制限する
   // const reducedStyle = reduceTalkStyle(style);
   
-  console.log(`message: ${message}`);
+  console.log(`SynthesizVvoice: message: ${message}`);
 
   const body = {
     message: message,
@@ -49,10 +49,13 @@ export async function synthesizeVoiceApi(
     body: JSON.stringify(body),
   });
 
+  // 上記の res は以下の形式。res は handler から渡された NextApiResponse<Data> 形式。
+  // res.status(200).json({ audio: base64 });
+
   console.log(`SynthesizVvoice: resの確認: ${res}`);
-  const data = (await res.json()) as any;       // ★ココがあやしいけど一旦このままで
+  const data = (await res.json()) as any;       // ★ココがあやしいと思ったけど、これで良さそう
   console.log(`SynthesizVvoice: dataの確認: ${data}`);
-  return { audio: data.audio };                 // ★ココがあやしいけど一旦このままで
+  return { audio: data.audio };                 // ★ココがあやしいと思ったけど、これで良さそう
 }
 
 

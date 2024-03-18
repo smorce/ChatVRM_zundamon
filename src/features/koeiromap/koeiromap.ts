@@ -4,33 +4,8 @@
  * 指定されたメッセージを音声合成APIを使用して音声に変換し、
  * その音声データをBase64エンコードした文字列として返す非同期関数です。
  * 
- * @returns Base64エンコードされた音声データの文字列をPromiseで返します。
+ * @returns Blobデータを返却する。
  */
-
-
-
-function blobToBase64(blob: Blob): Promise<string> {
-  return new Promise((resolve, reject) => {
-    const fileReader = new FileReader();
-    console.log(`fileReader1: ${fileReader}`);
-
-    fileReader.onload = () => {
-      console.log(`fileReader.onload: ${fileReader.result}`);
-      resolve(fileReader.result as string);
-    };
-
-    fileReader.onerror = (error) => {
-      console.log(`fileReader.onerror: ${error}`);
-      reject(error);
-    };
-
-    console.log(`fileReader2: ${fileReader}`);
-    fileReader.readAsDataURL(blob);
-  });
-}
-
-
-
 
 export async function style_bert_vits2(
   message: string,
@@ -48,8 +23,8 @@ export async function style_bert_vits2(
   style_weight: number = 5.0,
   reference_audio_path: string | null = null,
   given_tone: boolean = false
-): Promise<string> { // Base64エンコードされた文字列を返す
-
+): Promise<string> {
+  
   // Request body
   const body = {
       // text: message,                          // 変換するテキスト（エラーが出るので、ここでは入れずにURLに含めるようにした）
@@ -68,10 +43,12 @@ export async function style_bert_vits2(
       reference_audio_path: reference_audio_path,   // 参照オーディオパス（スタイルを音声ファイルで指定）
       given_tone: given_tone                     // トーン指定の有無
     };
-    
+  
+  message = 'デバッグなのだ'
+  
   // URLを構築し、クエリパラメータ`text`を追加
   // ★URL は毎回書き換える
-  const PUBLIC_URL = "https://1b98-34-73-200-252.ngrok-free.app";
+  const PUBLIC_URL = "https://798a-34-138-166-34.ngrok-free.app";
   const url = new URL(`${PUBLIC_URL}/voice`);
   url.searchParams.append('text', message); // `message`をクエリパラメータに追加
 
@@ -97,170 +74,5 @@ export async function style_bert_vits2(
   // ★ここも200になっている
   console.log(`koeiromap: Response status: ${response.status}`);
 
-  if (!response.ok) {
-    console.error(`Request failed: ${response.status}`);
-    throw new Error(`Request failed: ${response.status}`);
-  }
-
-  // レスポンスの内容（Blob）を取得
-  console.log(`koeiromap: Response: ${response}`);
-  const blob = await response.blob();
-
-  // デバッグ
-  // これで、サーバーから受け取ったBlobの内容の一部と、FileReaderがエラーを出した場合のエラー内容が出力されるはずです。この情報から、問題の原因を特定できるかもしれません。
-  // dumpBlob(blob);
-  
-  // 音声を取得して再生する関数内の一部を変更
-  // if (response.ok) {
-  //   console.log("aaa") 
-  //   // const blob = await response.blob();
-  //   console.log("bbb")
-  //   // Blobからオーディオを生成し、再生する
-  //   const url = URL.createObjectURL(blob);
-  //   console.log("ccc")  // ここまではいった
-  //   console.log(url)    // 正常だった
-
-
-    // // ダウンロードリンクを作成
-    // const downloadLink = document.createElement('a');
-    // downloadLink.href = url;
-    // downloadLink.download = 'audiofile.wav'; // 保存するファイルの名前
-
-    // // リンクをドキュメントに追加してクリックする（ユーザーに見えないようにすることも可能）
-    // document.body.appendChild(downloadLink);
-    // downloadLink.click();
-
-    // // リンクをドキュメントから削除
-    // document.body.removeChild(downloadLink);
-
-    // // 使用済みのURLを解放
-    // URL.revokeObjectURL(url);
-
-
-
-
-
-
-  //   // 既存の<audio>要素を使用する
-  //   // 非同期処理が問題になっている
-  //   const audioPlayer = document.getElementById('audioPlayer') as HTMLAudioElement;
-  //   console.log("ddd")
-  //   if (audioPlayer) {
-  //     audioPlayer.src = url;
-  //     audioPlayer.play()
-  //         .then(() => console.log("音声再生を開始しました。"))
-  //         .catch(e => console.error("音声再生に失敗しました。", e));
-  //   } else {
-  //     console.error('audioPlayer要素が見つかりません。');
-  //   }
-  // } else {
-  //     console.log("リクエストに失敗しました。");
-  //     response.json().then(data => console.log("エラーメッセージ:", JSON.stringify(data)));
-  // }
-  
-
-  // audio/wav タイプであり、空でないことを確認する
-  console.log(`Blob type: ${blob.type}`);
-  console.log(`Blob size: ${blob.size}`);
-  
-  const base64String = await blobToBase64(blob);
-  console.log(`Base64 string: ${base64String}`);
-
-  return base64String;
+  return response.blob();
 }
-
-
-  // Convert Blob to Base64
-//   return new Promise((resolve, reject) => {
-//     const reader = new FileReader();
-//     reader.onloadend = () => {
-//       // `result`が`string`型の場合のみ、resolveする
-//       console.log(`reader.result: ${reader.result}`);
-
-//       if (typeof reader.result === 'string') {
-//         resolve(reader.result);
-//       } else {
-//         console.log(`読み込まれたデータは文字列ではありません。`);
-//         reject(new Error('読み込まれたデータは文字列ではありません。'));
-//       }
-//     };
-//     reader.onerror = () => reject(reader.error);
-//     reader.readAsDataURL(blob);
-//   });
-// }
-
-
-
-  // const base64Encoded = await blobToBase64(blob);
-  // console.log(`結果を返す前にBase64エンコードされた最初の10文字を確認: ${base64Encoded.slice(0, 10)}`);
-  // return base64Encoded;
-  
-  // BlobをBase64エンコードされた文字列に変換
-  // ★ここがうまくいっていない
-//   function blobToBase64(blob: Blob): Promise<string> {
-//     return new Promise((resolve, reject) => {
-//       const reader = new FileReader();
-      
-//       // reader.onload = () => {
-//       //   const base64data = reader.result as string;
-//       //   const base64Encoded = base64data.split(',')[1];
-//       //   resolve(base64Encoded);
-//       // };
-
-//       reader.onload = () => {
-//         const binaryStr = reader.result;
-//         if (binaryStr !== null) {
-//           console.log("Blob contents (first 100 bytes):", binaryStr.slice(0, 100));
-//         } else {
-//           console.error("Failed to read blob as binary string");
-//         }
-//       };
-
-//       reader.onerror = (event) => {
-//         console.error("Error reading blob as binary string:", event);
-//         reject("Failed to read blob as base64");      
-//       };
-//       reader.readAsDataURL(blob);
-//     });
-//   }
-
-//   function dumpBlob(blob: Blob) {
-//     const reader = new FileReader();
-//     reader.onload = () => {
-//       const binaryStr = reader.result;
-//       console.log("Blob contents (first 100 bytes):", binaryStr.slice(0, 100));
-//     };
-//     reader.readAsBinaryString(blob);
-//   }
-// }
-
-
-
-//   // → Blob type: audio/wav
-//   // → Blob size: 74796
-//   // ちゃんとできてそう
-  
-//   // BlobをBase64エンコードされた文字列に変換
-//   return new Promise<string>((resolve, reject) => {
-//     const reader = new FileReader();
-
-    
-//     // onloadend の代わりに onload イベントハンドラを使用してみて、それが正常にトリガーされるかどうかを確認
-//     reader.onload = () => {
-//       // FileReaderが完了したら結果を取得
-//       const base64data = reader.result as string;
-//       // データURLスキーマのプレフィックスを削除して、純粋なBase64文字列を取得(最初の10文字)
-//       const base64Encoded = base64data.split(',')[1];
-//       // 結果をコンソールに表示
-//       console.log(`結果を返す前にBase64エンコードされた最初の10文字を確認: ${base64Encoded.slice(0, 10)}`);
-//       // 結果を返す
-//       resolve(base64Encoded);
-//     };
-//     reader.onerror = () => {
-//       console.error("Failed to read blob as base64");
-//       reject("Failed to read blob as base64");
-//     };
-//     // FileReaderでBlobを読み込む
-//     reader.readAsDataURL(blob);
-//   });
-// }

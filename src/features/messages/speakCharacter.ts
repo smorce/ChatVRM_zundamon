@@ -74,6 +74,9 @@ export const fetchAudio = async (
     talk.reference_audio_path,
     talk.given_tone
     );
+
+  // ttsVoice は { audio: data.audio } というJSONデータ。.audio でデータにアクセスする
+  // 以下の url は data.audio であり、Base64エンコーディングされた音声データ(data:audio/wav;base64,UklGRiSUAQBXQ ~)
   const url = ttsVoice.audio;
 
   if (url == null) {
