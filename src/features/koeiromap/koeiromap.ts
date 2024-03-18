@@ -90,7 +90,7 @@ export async function style_bert_vits2(
     // Blobからオーディオを生成し、再生する
     const url = URL.createObjectURL(blob);
     // 既存の<audio>要素を使用する
-    const audioPlayer = document.getElementById('audioPlayer');
+    const audioPlayer = document.getElementById('audioPlayer') as HTMLAudioElement;
     if (audioPlayer) {
       audioPlayer.src = url;
       audioPlayer.play()
@@ -103,7 +103,6 @@ export async function style_bert_vits2(
       console.log("リクエストに失敗しました。");
       response.json().then(data => console.log("エラーメッセージ:", JSON.stringify(data)));
   }
-
   
 
   // audio/wav タイプであり、空でないことを確認する
