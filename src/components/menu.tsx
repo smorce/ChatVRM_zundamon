@@ -13,14 +13,14 @@ type Props = {
   chatLog: Message[];
   koeiroParam: KoeiroParam;
   assistantMessage: string;
-  koeiromapKey: string;
+  // koeiromapKey: string;
   onChangeSystemPrompt: (systemPrompt: string) => void;
   onChangeAiKey: (key: string) => void;
   onChangeChatLog: (index: number, text: string) => void;
   onChangeKoeiromapParam: (param: KoeiroParam) => void;
   handleClickResetChatLog: () => void;
   handleClickResetSystemPrompt: () => void;
-  onChangeKoeiromapKey: (key: string) => void;
+  // onChangeKoeiromapKey: (key: string) => void;
 };
 export const Menu = ({
   // openAiKey,
@@ -28,14 +28,14 @@ export const Menu = ({
   chatLog,
   koeiroParam,
   assistantMessage,
-  koeiromapKey,
+  // koeiromapKey,
   onChangeSystemPrompt,
   onChangeAiKey,
   onChangeChatLog,
   onChangeKoeiromapParam,
   handleClickResetChatLog,
   handleClickResetSystemPrompt,
-  onChangeKoeiromapKey,
+  // onChangeKoeiromapKey,
 }: Props) => {
   const [showSettings, setShowSettings] = useState(false);
   const [showChatLog, setShowChatLog] = useState(false);
@@ -56,12 +56,12 @@ export const Menu = ({
     [onChangeAiKey]
   );
 
-  const handleChangeKoeiromapKey = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      onChangeKoeiromapKey(event.target.value);
-    },
-    [onChangeKoeiromapKey]
-  );
+  // const handleChangeKoeiromapKey = useCallback(
+  //   (event: React.ChangeEvent<HTMLInputElement>) => {
+  //     onChangeKoeiromapKey(event.target.value);
+  //   },
+  //   [onChangeKoeiromapKey]
+  // );
 
   const handleChangeKoeiroParam = useCallback(
     (x: number, y: number) => {
@@ -133,7 +133,7 @@ export const Menu = ({
           chatLog={chatLog}
           systemPrompt={systemPrompt}
           koeiroParam={koeiroParam}
-          koeiromapKey={koeiromapKey}
+          // koeiromapKey={koeiromapKey}
           onClickClose={() => setShowSettings(false)}
           onChangeAiKey={handleAiKeyChange}
           onChangeSystemPrompt={handleChangeSystemPrompt}
@@ -142,7 +142,7 @@ export const Menu = ({
           onClickOpenVrmFile={handleClickOpenVrmFile}
           onClickResetChatLog={handleClickResetChatLog}
           onClickResetSystemPrompt={handleClickResetSystemPrompt}
-          onChangeKoeiromapKey={handleChangeKoeiromapKey}
+          // onChangeKoeiromapKey={handleChangeKoeiromapKey}
         />
       )}
       {!showChatLog && assistantMessage && (
