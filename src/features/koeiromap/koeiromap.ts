@@ -1,4 +1,4 @@
-import { TalkStyle } from "../messages/messages";
+// import { TalkStyle } from "../messages/messages";
 
 /*
  * 指定されたメッセージを音声合成APIを使用して音声に変換し、
@@ -7,7 +7,7 @@ import { TalkStyle } from "../messages/messages";
  * @returns Base64エンコードされた音声データの文字列をPromiseで返します。
  */
 
-export async function synthesizeVoice(
+export async function style_bert_vits2(
   message: string,
   speaker_id: number = 0,
   sdp_ratio: number = 0.6,
