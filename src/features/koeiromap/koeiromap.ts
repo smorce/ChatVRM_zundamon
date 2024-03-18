@@ -83,7 +83,7 @@ export async function style_bert_vits2(
   // デバッグ
   // これで、サーバーから受け取ったBlobの内容の一部と、FileReaderがエラーを出した場合のエラー内容が出力されるはずです。この情報から、問題の原因を特定できるかもしれません。
   // dumpBlob(blob);
-  fetchAndPlayAudio(blob);
+  playAudioFromBlob(blob);
 
   
 
