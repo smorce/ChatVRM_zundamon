@@ -84,11 +84,14 @@ export async function style_bert_vits2(
   console.log(`Blob type: ${blob.type}`);
   console.log(`Blob size: ${blob.size}`);
   
+  // → Blob type: audio/wav
+  // → Blob size: 74796
+  // ちゃんとできてそう
   
   // BlobをBase64エンコードされた文字列に変換
   return new Promise<string>((resolve, reject) => {
     const reader = new FileReader();
-    reader.onloadend = () => {
+    reader.onload = () => {
       // FileReaderが完了したら結果を取得
       const base64data = reader.result as string;
       // データURLスキーマのプレフィックスを削除して、純粋なBase64文字列を取得(最初の10文字)
