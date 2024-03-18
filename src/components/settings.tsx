@@ -12,7 +12,7 @@ import {
 import { Link } from "./link";
 
 type Props = {
-  openAiKey: string;
+  // openAiKey: string;
   systemPrompt: string;
   chatLog: Message[];
   koeiroParam: KoeiroParam;
@@ -28,7 +28,7 @@ type Props = {
   onChangeKoeiromapKey: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 export const Settings = ({
-  openAiKey,
+  // openAiKey,
   chatLog,
   systemPrompt,
   koeiroParam,
@@ -56,7 +56,7 @@ export const Settings = ({
         <div className="text-text1 max-w-3xl mx-auto px-24 py-64 ">
           <div className="my-24 typography-32 font-bold">設定</div>
           <div className="my-24">
-            <div className="my-16 typography-20 font-bold">OpenAI API キー</div>
+            {/* <div className="my-16 typography-20 font-bold">OpenAI API キー</div>
             <input
               className="text-ellipsis px-16 py-8 w-col-span-2 bg-surface1 hover:bg-surface1-hover rounded-8"
               type="text"
@@ -71,7 +71,7 @@ export const Settings = ({
                 label="OpenAIのサイト"
               />
               で取得できます。取得したAPIキーをフォームに入力してください。
-            </div>
+            </div> */}
             <div className="my-16">
               ChatGPT
               APIはブラウザから直接アクセスしています。また、APIキーや会話内容はピクシブのサーバには保存されません。
