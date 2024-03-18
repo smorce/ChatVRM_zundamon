@@ -25,8 +25,9 @@ export async function style_bert_vits2(
   given_tone: boolean = false
 ): Promise<string> { // Base64エンコードされた文字列を返す
 
-  const params = {
-      // text: message,                            // 変換するテキスト（エラーが出るので、ここでは入れずにURLに含めるようにした）
+  // Request body
+  const body = {
+      // text: message,                          // 変換するテキスト（エラーが出るので、ここでは入れずにURLに含めるようにした）
       speaker_id: speaker_id,                    // 話者のID
       sdp_ratio: sdp_ratio,                      // SDP（Stochastic Duration Predictor）とDP（Duration Predictor）の混合比率
       noise: noise,                              // サンプルノイズの割合（ランダム性を増加させる）
@@ -41,26 +42,29 @@ export async function style_bert_vits2(
       style_weight: style_weight,                // スタイルの強さ
       reference_audio_path: reference_audio_path,   // 参照オーディオパス（スタイルを音声ファイルで指定）
       given_tone: given_tone                     // トーン指定の有無
-    }
+    };
     
   // URLを構築し、クエリパラメータ`text`を追加
   // ★URL は毎回書き換える
-  const PUBLIC_URL = "https://f431-34-90-206-27.ngrok-free.app";
+  const PUBLIC_URL = "https://5569-34-82-190-225.ngrok-free.app";
   const url = new URL(`${PUBLIC_URL}/voice`);
   url.searchParams.append('text', message); // `message`をクエリパラメータに追加
 
   // リクエストのURLとパラメータをコンソールに出力
   console.log(`Requesting URL: ${url}`);
-  console.log(`With params: ${JSON.stringify(params)}`);
+  console.log(`With params: ${JSON.stringify(body)}`);
 
   // `fetch`を使用してAPIリクエストを送信、URLにクエリパラメータを含める
-  const response = await fetch(url.toString(), {
-    method: 'POST',
-    body: JSON.stringify(params),
-    headers: {
-        'Content-Type': 'application/json'
+  const response = await fetch(
+    url,
+    {
+      method: 'POST',
+      body: JSON.stringify(body),
+      headers: {
+          'Content-Type': 'application/json'
+      },
     }
-  });
+  );
 
   // レスポンスのステータスをコンソールに出力
   console.log(`Response status: ${response.status}`);

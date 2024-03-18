@@ -1,51 +1,44 @@
-import { reduceTalkStyle } from "@/utils/reduceTalkStyle";
-// import { koeiromapV0 } from "../koeiromap/koeiromap";
-import { style_bert_vits2 } from "../koeiromap/koeiromap";
-import { TalkStyle } from "../messages/messages";
-
-export async function synthesizeVoice(
-  message: string,
-  speaker_id: number,
-  sdp_ratio: number,
-  noise: number,
-  noisew: number,
-  length: number,
-  language: string,
-  auto_split: string,     // string に変更
-  split_interval: number,
-  assist_text: string | null,
-  assist_text_weight: number,
-  style: string,
-  style_weight: number,
-  reference_audio_path: string | null,
-  given_tone: boolean
-  ) {
-
-  console.log(`message: ${message}`);
-
-  // style_bert_vits2関数を呼び出して、音声データをBase64エンコーディングされた文字列で取得
-  const base64EncodedAudio = await style_bert_vits2(message, speaker_id, sdp_ratio, noise, noisew, length, language, auto_split, split_interval, assist_text, assist_text_weight, style, style_weight, reference_audio_path, given_tone);
-  // return { audio: koeiroRes.audio };
-  // 取得したBase64エンコーディングされた音声データをオブジェクトのプロパティとして返す
-  return { audio: base64EncodedAudio };
-}
+// import { reduceTalkStyle } from "@/utils/reduceTalkStyle";
 
 export async function synthesizeVoiceApi(
-  message: string,
-  speakerX: number,
-  speakerY: number,
-  style: TalkStyle,
-  apiKey: string
+    message: string,
+    speaker_id: number,
+    sdp_ratio: number,
+    noise: number,
+    noisew: number,
+    length: number,
+    language: string,
+    auto_split: string,     // string に変更
+    split_interval: number,
+    assist_text: string | null,
+    assist_text_weight: number,
+    style: string,
+    style_weight: number,
+    reference_audio_path: string | null,
+    given_tone: boolean
 ) {
+  
   // Free向けに感情を制限する
-  const reducedStyle = reduceTalkStyle(style);
+  // const reducedStyle = reduceTalkStyle(style);
+  
+  console.log(`message: ${message}`);
 
   const body = {
     message: message,
-    speakerX: speakerX,
-    speakerY: speakerY,
-    style: reducedStyle,
-    apiKey: apiKey,
+    speaker_id: speaker_id,
+    sdp_ratio: sdp_ratio,
+    noise: noise,
+    noisew: noisew,
+    length: length,
+    language: language,
+    auto_split: auto_split,
+    split_interval: split_interval,
+    assist_text: assist_text,
+    assist_text_weight: assist_text_weight,
+    style: style,
+    style_weight: style_weight,
+    reference_audio_path: reference_audio_path,
+    given_tone: given_tone,
   };
 
   const res = await fetch("/api/tts", {
@@ -55,7 +48,6 @@ export async function synthesizeVoiceApi(
     },
     body: JSON.stringify(body),
   });
-  const data = (await res.json()) as any;
-
-  return { audio: data.audio };
+  const data = (await res.json()) as any;       // ★ココがあやしいけど一旦このままで
+  return { audio: data.audio };                 // ★ココがあやしいけど一旦このままで
 }

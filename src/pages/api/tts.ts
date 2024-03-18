@@ -50,7 +50,8 @@ export default async function handler(
     // 最初の数文字だけをログに出力することを検討してください。
     console.log(`Sample of base64 audio: ${base64EncodedAudio.substring(0, 100)}...`);
     // 成功したレスポンスをクライアントに返します。
-    res.status(200).json({ audio: base64EncodedAudio });
+    // res.status(200).json({ audio: base64EncodedAudio });
+    res.status(200).json(base64EncodedAudio);                 // ★元のコードに合わせてこっちにしてみる
   } catch (error) {
     // エラーハンドリング: エラーが発生した場合は、500のステータスコードとともにエラーメッセージを返します。
     res.status(500).json({ error: error instanceof Error ? error.message : "Unknown error" });
