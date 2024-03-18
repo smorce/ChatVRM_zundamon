@@ -49,9 +49,12 @@ export async function style_bert_vits2(
   const url = new URL(`${PUBLIC_URL}/voice`);
   url.searchParams.append('text', message); // `message`をクエリパラメータに追加
 
+  // リクエストのURLとパラメータをコンソールに出力
+  console.log(`Requesting URL: ${url}`);
+  console.log(`With params: ${JSON.stringify(params)}`);
 
   // `fetch`を使用してAPIリクエストを送信、URLにクエリパラメータを含める
-  const response = await fetch(url, {
+  const response = await fetch(url.toString(), {
     method: 'POST',
     body: JSON.stringify(params),
     headers: {
@@ -59,7 +62,11 @@ export async function style_bert_vits2(
     }
   });
 
+  // レスポンスのステータスをコンソールに出力
+  console.log(`Response status: ${response.status}`);
+
   if (!response.ok) {
+    console.error(`Request failed: ${response.status}`);
     throw new Error(`Request failed: ${response.status}`);
   }
 
