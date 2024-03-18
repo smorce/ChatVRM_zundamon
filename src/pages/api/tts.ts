@@ -1,6 +1,6 @@
 // ここでBlobをBase64エンコーディングされたテキストに変換する
 // このファイルはサーバーサイドで、クライアントからのリクエストデータの受け取り、リクエストに基づいた処理の実行（データベースへの問い合わせ、外部APIの呼び出し、ビジネスロジックの適用など）、処理結果のクライアントへの返信 などを行う
-// よって、FileReaderはブラウザのAPIであり、Node.jsの標準ライブラリには含まれていません。そのため、Next.jsのAPIルートや他のNode.js環境でこのコードを実行しようとすると
+// よって、FileReader はブラウザのAPIであり、Node.jsの標準ライブラリには含まれていません。そのため、Next.jsのAPIルートや他のNode.js環境でこのコードを実行しようとすると
 // FileReader is not defined というエラーが発生する
 
 import { style_bert_vits2 } from "@/features/koeiromap/koeiromap";
@@ -29,7 +29,7 @@ console.log(`TTS: デバッグ出力 bbb`);
 // };
 
 
-// サーバーサイドでやる場合は、BlobをBufferに変換し、そのBufferをBase64文字列にエンコーディングする処理をしないといけない
+// サーバーサイドでやる場合は、BlobをBufferに変換し、そのBufferをBase64文字列にエンコーディングする、という2段階の処理をしないといけない
 async function blobToBuffer(blob: Blob): Promise<Buffer> {
   const arrayBuffer = await blob.arrayBuffer();
   return Buffer.from(arrayBuffer);
