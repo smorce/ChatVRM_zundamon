@@ -48,6 +48,11 @@ export async function synthesizeVoiceApi(
     },
     body: JSON.stringify(body),
   });
+
+  console.log(`SynthesizVvoice: resの確認: ${res}`);
   const data = (await res.json()) as any;       // ★ココがあやしいけど一旦このままで
+  console.log(`SynthesizVvoice: dataの確認: ${data}`);
   return { audio: data.audio };                 // ★ココがあやしいけど一旦このままで
 }
+
+

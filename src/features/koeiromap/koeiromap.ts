@@ -46,13 +46,15 @@ export async function style_bert_vits2(
     
   // URLを構築し、クエリパラメータ`text`を追加
   // ★URL は毎回書き換える
-  const PUBLIC_URL = "https://5569-34-82-190-225.ngrok-free.app";
+  const PUBLIC_URL = "https://1b98-34-73-200-252.ngrok-free.app";
   const url = new URL(`${PUBLIC_URL}/voice`);
   url.searchParams.append('text', message); // `message`をクエリパラメータに追加
 
   // リクエストのURLとパラメータをコンソールに出力
-  console.log(`Requesting URL: ${url}`);
-  console.log(`With params: ${JSON.stringify(body)}`);
+  // ★ココはできている
+  console.log(`koeiromap: メッセージの確認: ${message}`);
+  console.log(`koeiromap: Requesting URL: ${url}`);
+  console.log(`koeiromap: With params: ${JSON.stringify(body)}`);
 
   // `fetch`を使用してAPIリクエストを送信、URLにクエリパラメータを含める
   const response = await fetch(
@@ -67,7 +69,8 @@ export async function style_bert_vits2(
   );
 
   // レスポンスのステータスをコンソールに出力
-  console.log(`Response status: ${response.status}`);
+  // ★ここも200になっている
+  console.log(`koeiromap: Response status: ${response.status}`);
 
   if (!response.ok) {
     console.error(`Request failed: ${response.status}`);
@@ -82,8 +85,10 @@ export async function style_bert_vits2(
     reader.onloadend = () => {
       // FileReaderが完了したら結果を取得
       const base64data = reader.result as string;
-      // データURLスキーマのプレフィックスを削除して、純粋なBase64文字列を取得
+      // データURLスキーマのプレフィックスを削除して、純粋なBase64文字列を取得(最初の10文字)
       const base64Encoded = base64data.split(',')[1];
+      // 結果をコンソールに表示
+      console.log(`結果を返す前にBase64エンコードされた最初の10文字を確認: ${base64Encoded.slice(0, 10)}`);
       // 結果を返す
       resolve(base64Encoded);
     };
