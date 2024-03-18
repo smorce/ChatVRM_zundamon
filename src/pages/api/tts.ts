@@ -46,6 +46,9 @@ export default async function handler(
       reference_audio_path,
       given_tone
     );
+    // オプション: 長さが非常に大きい場合、全てをログに出力すると不便なため、
+    // 最初の数文字だけをログに出力することを検討してください。
+    console.log(`Sample of base64 audio: ${base64EncodedAudio.substring(0, 100)}...`);
     // 成功したレスポンスをクライアントに返します。
     res.status(200).json({ audio: base64EncodedAudio });
   } catch (error) {
