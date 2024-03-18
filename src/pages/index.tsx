@@ -21,7 +21,7 @@ export default function Home() {
 
   const [systemPrompt, setSystemPrompt] = useState(SYSTEM_PROMPT);
   const [openAiKey, setOpenAiKey] = useState("");
-  const [koeiromapKey, setKoeiromapKey] = useState("");
+  // const [koeiromapKey, setKoeiromapKey] = useState("");
   const [koeiroParam, setKoeiroParam] = useState<KoeiroParam>(DEFAULT_PARAM);
   const [chatProcessing, setChatProcessing] = useState(false);
   const [chatLog, setChatLog] = useState<Message[]>([]);
@@ -67,9 +67,10 @@ export default function Home() {
       onStart?: () => void,
       onEnd?: () => void
     ) => {
-      speakCharacter(screenplay, viewer, koeiromapKey, onStart, onEnd);
+      speakCharacter(screenplay, viewer, onStart, onEnd);
     },
-    [viewer, koeiromapKey]
+    // [viewer, koeiromapKey]    // React では、useCallback フックを使用して関数をメモ化することができます。これは、特定の依存関係が変更されたときにのみ関数が再計算されるようにするためです。つまり、このリスト内の変数が変更された場合にのみ、handleSpeakAi 関数が再生成されます。
+    [viewer]                     // koeiromapKey は使わないので、再計算に使うのは viewer だけでOK
   );
 
   /**
@@ -206,14 +207,14 @@ export default function Home() {
         chatLog={chatLog}
         koeiroParam={koeiroParam}
         assistantMessage={assistantMessage}
-        koeiromapKey={koeiromapKey}
+        // koeiromapKey={koeiromapKey}
         onChangeAiKey={setOpenAiKey}
         onChangeSystemPrompt={setSystemPrompt}
         onChangeChatLog={handleChangeChatLog}
         onChangeKoeiromapParam={setKoeiroParam}
         handleClickResetChatLog={() => setChatLog([])}
         handleClickResetSystemPrompt={() => setSystemPrompt(SYSTEM_PROMPT)}
-        onChangeKoeiromapKey={setKoeiromapKey}
+        // onChangeKoeiromapKey={setKoeiromapKey}
       />
       {/* <GitHubLink /> */}
     </div>
