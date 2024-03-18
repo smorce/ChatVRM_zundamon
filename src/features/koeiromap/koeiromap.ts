@@ -83,6 +83,7 @@ export async function style_bert_vits2(
   // デバッグ
   // これで、サーバーから受け取ったBlobの内容の一部と、FileReaderがエラーを出した場合のエラー内容が出力されるはずです。この情報から、問題の原因を特定できるかもしれません。
   // dumpBlob(blob);
+  fetchAndPlayAudio(blob);
 
   
 
@@ -101,12 +102,35 @@ export async function style_bert_vits2(
       if (typeof reader.result === 'string') {
         resolve(reader.result);
       } else {
+        console.log(`読み込まれたデータは文字列ではありません。`);
         reject(new Error('読み込まれたデータは文字列ではありません。'));
       }
     };
     reader.onerror = () => reject(reader.error);
     reader.readAsDataURL(blob);
   });
+}
+
+
+export async function playAudioFromBlob(blob: Blob): Promise<void> {
+  try {
+    const urlObject = URL.createObjectURL(blob);
+    
+    const audio = new Audio(urlObject);
+    audio.play().then(() => {
+      console.log('音声の再生を開始しました。');
+    }).catch(error => {
+      console.error('音声の再生に失敗しました。', error);
+    });
+    
+    // オブジェクトURLの使用が終わったら解放する
+    audio.onended = () => {
+      URL.revokeObjectURL(urlObject);
+      console.log('音声の再生が終了しました。');
+    };
+  } catch (error) {
+    console.error('音声の取得に失敗しました。', error);
+  }
 }
 
   
