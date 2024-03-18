@@ -49,9 +49,8 @@ export default async function handler(
     // オプション: 長さが非常に大きい場合、全てをログに出力すると不便なため、
     // 最初の数文字だけをログに出力することを検討してください。
     console.log(`Sample of base64 audio: ${base64EncodedAudio.substring(0, 100)}...`);
-    // 成功したレスポンスをクライアントに返します。
-    // res.status(200).json({ audio: base64EncodedAudio });
-    res.status(200).json(base64EncodedAudio);                 // ★元のコードに合わせてこっちにしてみる
+    // 成功したレスポンスをクライアントに返します。ココは元のコードと違っていて {} の辞書型にしないといけない
+    res.status(200).json({ audio: base64EncodedAudio });
   } catch (error) {
     // エラーハンドリング: エラーが発生した場合は、500のステータスコードとともにエラーメッセージを返します。
     res.status(500).json({ error: error instanceof Error ? error.message : "Unknown error" });
