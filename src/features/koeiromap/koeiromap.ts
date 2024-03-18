@@ -83,7 +83,22 @@ export async function style_bert_vits2(
   // デバッグ
   // これで、サーバーから受け取ったBlobの内容の一部と、FileReaderがエラーを出した場合のエラー内容が出力されるはずです。この情報から、問題の原因を特定できるかもしれません。
   // dumpBlob(blob);
-  playAudioFromBlob(blob);
+  
+  // 音声を取得して再生する関数内の一部を変更
+  if (response.ok) {
+    const blob = await response.blob();
+    // Blobからオーディオを生成し、再生する
+    const url = URL.createObjectURL(blob);
+    // 既存の<audio>要素を使用する
+    const audioPlayer = document.getElementById('audioPlayer');
+    audioPlayer.src = url;
+    audioPlayer.play()
+        .then(() => console.log("音声再生を開始しました。"))
+        .catch(e => console.error("音声再生に失敗しました。", e));
+  } else {
+      console.log("リクエストに失敗しました。");
+      response.json().then(data => console.log("エラーメッセージ:", JSON.stringify(data)));
+  }
 
   
 
@@ -112,28 +127,7 @@ export async function style_bert_vits2(
 }
 
 
-export async function playAudioFromBlob(blob: Blob): Promise<void> {
-  try {
-    const urlObject = URL.createObjectURL(blob);
-    
-    const audio = new Audio(urlObject);
-    audio.play().then(() => {
-      console.log('音声の再生を開始しました。');
-    }).catch(error => {
-      console.error('音声の再生に失敗しました。', error);
-    });
-    
-    // オブジェクトURLの使用が終わったら解放する
-    audio.onended = () => {
-      URL.revokeObjectURL(urlObject);
-      console.log('音声の再生が終了しました。');
-    };
-  } catch (error) {
-    console.error('音声の取得に失敗しました。', error);
-  }
-}
 
-  
   // const base64Encoded = await blobToBase64(blob);
   // console.log(`結果を返す前にBase64エンコードされた最初の10文字を確認: ${base64Encoded.slice(0, 10)}`);
   // return base64Encoded;
