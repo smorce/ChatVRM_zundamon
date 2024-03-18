@@ -1,0 +1,80 @@
+This folder contains data to dress any humanoid model in a Zundamon (humanoid) costume set.
+Please note, however that handling each model data requires knowledge and skills (to a certain extent) in 3DCG tools such as Maya and Blender, as well as Unity and UnrealEngine.
+We will not be able to answer any questions regarding the specific usage of this data. Please handle this data at your own risk.
+
+
+By using this model data, you agree to and accept the following terms and conditions.
+
+*You may use this model data for non-commercial purposes only.
+*The use of the product on only some parts of the body is possible, but we request that the product be used on all parts as much as possible.*Uploading to online services such as VRChat is permitted.
+*We do'nt permit the use of the model data for sexual, violent, political, religious, or other sensitive purposes.
+*You may freely make adjustments (size, color, etc.) to this model in order to modify other model data.
+*We allow outsourcing of adjustments to other companies.
+*This model data may be redistributed as is without charge.
+*We give you permission to use this model data in other media such as video, distribution, and broadcasting.
+*For permission to use the model data in publications or goods, or to incorporate the model data into applications or software, please inquire separately.
+*For non-commercial use only, you may use this model as is to create a new costume model, or create a derivative work using this model as a motif.
+*No credit is required when using this model.
+*SSS LLC Tohoku Zunko Project shall not be liable for any trouble or damage caused by the use of this model.
+
+
+We do not waive the copyright of this model data. All copyrights belong to "SSS LLC Tohoku Zunko Project".
+Transfer or sale of the rights to a third party without the permission of the rights holder is strictly prohibited.
+
+If you have any other questions about the use of this data, please read the "User's Guide" provided by Tohoku Zunko Project (https://zunko.jp) and send them to the e-mail address provided by "SSS LLC Tohoku Zunko Project".
+
+
+
+*************************************************
+
+Easy to use: Parent and child each costume bone to the corresponding bone.
+
+fileformat:fbx
+
+
+●Zundamon_shoes.fbx
+
+Bones
+Zunda_Lower_Leg.L(R)(Parent:Lower_Leg.L(R))
+Zunda_Foot.L(R)(Parent:Foot.L(R))
+Zunda_Toe.L(R)(Parent:Toe.L(R))
+
+Texture
+ZundamonShoes.png
+
+
+●Zundamon_Cloth.fbx
+
+Bones
+Zunda_Neck(Parent:Neck)
+Zunda_Chest(Parent:Chest)
+Zunda_Spine(Parent:Spine)
+Zunda_Hips(Parent:Hips)
+Zunda_Shoulder.L(R)(Parent:Shoulder.L(R))
+Zunda_Upper_Arm.L(R)(Parent:Upper_Arm.L(R))
+Zunda_Upper_Leg.L(R)(Parent:Upper_Leg.L(R))
+
+
+necklace.root(Parent:Chest)
+ necklaceRibbon.L(R)
+Button_Root(Parent:Spine)
+ button1.l(R)
+ button2.l(R)
+ 
+Texture
+ZundamonCloth.png
+
+
+●Zundamon_Ear.fbx
+
+Bones
+Zunda_Ear.root(Parent:Head)
+Zunda_Ear.L(R).000~003(Parent:Zunda_Ear.root)
+
+Texture
+ZundamonEar.png
+
+
+*************************************************
+
+Copyright SSS LLC.

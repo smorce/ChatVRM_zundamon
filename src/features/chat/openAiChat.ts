@@ -38,14 +38,18 @@ export async function getChatResponseStream(
     "Content-Type": "application/json",
     Authorization: `Bearer ${apiKey}`,
   };
-  const res = await fetch("https://api.openai.com/v1/chat/completions", {
+  // ★URL は毎回書き換える
+  const PUBLIC_URL = "https://bdb7-34-133-21-83.ngrok-free.app";
+  const res = await fetch(`${PUBLIC_URL}/v1/chat/completions`, {
     headers: headers,
     method: "POST",
     body: JSON.stringify({
-      model: "gpt-3.5-turbo",
+      model: "smorce/nekomata-14B-instruction-4bit-qlora-merge2-gozaru",
       messages: messages,
       stream: true,
-      max_tokens: 200,
+      temperature: 0.7,
+      max_tokens: 500,
+      top_p: 0.95,
     }),
   });
 
