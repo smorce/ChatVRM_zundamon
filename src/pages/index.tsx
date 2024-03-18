@@ -157,7 +157,8 @@ export default function Home() {
             }
 
             const aiText = `${tag} ${sentence}`;
-            const aiTalks = textsToScreenplay([aiText], koeiroParam);
+            // const aiTalks = textsToScreenplay([aiText], koeiroParam);
+            const aiTalks = textsToScreenplay([aiText]);
             aiTextLog += aiText;
 
             // 文ごとに音声を生成 & 再生、返答を表示
