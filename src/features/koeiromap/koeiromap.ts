@@ -90,19 +90,27 @@ export async function style_bert_vits2(
   console.log(`Blob type: ${blob.type}`);
   console.log(`Blob size: ${blob.size}`);
   
+  // Convert Blob to Base64
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    
+    console.log(reader);
 
-  // BlobをArrayBufferに変換
-  const arrayBuffer = await blob.arrayBuffer();
-
-  // ArrayBufferをBase64エンコードした文字列に変換
-  const base64String = btoa(String.fromCharCode(...new Uint8Array(arrayBuffer)));
-
-  console.log(`Base64 encoded string: ${base64String}`);
-
-  // Base64エンコードされた文字列を返す
-  return base64String;
+    reader.onloadend = () => {
+      // The result includes the content type as a data URL prefix. To get only the Base64 string, 
+      // you might need to strip this prefix depending on your use case.
+      const base64String = reader.result;
+      console.log(`デバッグ: ${base64String}`);
+      resolve(base64String);
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(blob);
+  });
 }
 
+
+
+  
   // const base64Encoded = await blobToBase64(blob);
   // console.log(`結果を返す前にBase64エンコードされた最初の10文字を確認: ${base64Encoded.slice(0, 10)}`);
   // return base64Encoded;
