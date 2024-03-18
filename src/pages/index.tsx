@@ -161,6 +161,16 @@ export default function Home() {
           );
           if (sentenceMatch && sentenceMatch[0]) {
             let sentence = sentenceMatch[0];         // replace したかったので const から let に変更
+            
+            // sentence がストリーミングのテキストだと思うので、ずんだもん仕様に変換
+            sentence = sentence.replace("我、りんえもんは思う。", "僕は考えた。")
+            sentence = sentence.replace("のでござる", "なのだ")
+            sentence = sentence.replace("いますでござる", "います")
+            sentence = sentence.replace("でござる", "なのだ")
+            sentence = sentence.replace("ましたでござる", "たのだ")
+            sentence = sentence.replace("知らんけど。", "こんな感じで良い？")
+            sentence = sentence.replace("我", "僕")
+
             sentences.push(sentence);
             receivedMessage = receivedMessage
               .slice(sentence.length)
@@ -175,15 +185,6 @@ export default function Home() {
             ) {
               continue;
             }
-
-            // sentence がストリーミングのテキストだと思うので、ずんだもん仕様に変換
-            sentence = sentence.replace("我、りんえもんは思う。", "僕は考えた。")
-            sentence = sentence.replace("のでござる", "なのだ")
-            sentence = sentence.replace("いますでござる", "います")
-            sentence = sentence.replace("でござる", "なのだ")
-            sentence = sentence.replace("ましたでござる", "たのだ")
-            sentence = sentence.replace("知らんけど。", "こんな感じで良い？")
-            sentence = sentence.replace("我", "僕")
 
             const aiText = `${tag} ${sentence}`;
             // const aiTalks = textsToScreenplay([aiText], koeiroParam);
