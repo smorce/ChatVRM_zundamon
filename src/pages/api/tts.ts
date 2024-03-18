@@ -88,11 +88,15 @@ export default async function handler(
     const buffer = await blobToBuffer(blob);
 
     // Step2. BufferからBase64文字列に変換
-    const base64 = buffer.toString('base64');
+    const dataUri = buffer.toString('base64');
+
+    // Step3. 文字列しかないのでURIスキーマを追加して完全な文字列を構築する。こうすることでブラウザが正しく解釈できる
+    const base64 = `data:audio/wav;base64,${dataUri}`;
+
     // 最初の10文字だけ表示
     console.log(`Base64エンコーディングされた音声データ: ${base64.substring(0, 10)}...`);
 
-    // 成功したレスポンスをクライアントに返します。本のコードの voice は { audio: base64 } というJSONデータ(keyがaudio, value の base64 がBase64エンコーディングされた音声データ)なので、こちらもJSONデータにする。
+    // 成功したレスポンスをクライアントに返します。元のコードの voice は { audio: base64 } というJSONデータ(keyがaudio, value の base64 がBase64エンコーディングされた音声データ)なので、こちらもJSONデータにする。
     res.status(200).json({ audio: base64 });
   } catch (error) {
     // `error`が`Error`のインスタンスであるかを確認
