@@ -73,19 +73,14 @@ export default async function handler(
     );
 
     // BlobをBase64エンコーディングされたテキストに変換し、コンソールに表示
-    blobToBase64(blob).then(base64 => {
-      // 最初の10文字だけ表示
-      console.log(`Base64エンコーディングされた音声データ: ${base64.substring(0, 10)}...`);
-    }).catch(error => {
-      console.error(error.message);
-    });
+    const base64 = await blobToBase64(blob);
+    // 最初の10文字だけ表示
+    console.log(`Base64エンコーディングされた音声データ: ${base64.substring(0, 10)}...`);
+
     // 成功したレスポンスをクライアントに返します。本のコードの voice は { audio: base64 } というJSONデータ(keyがaudio, value の base64 がBase64エンコーディングされた音声データ)なので、こちらもJSONデータにする。
     res.status(200).json({ audio: base64 });
   } catch (error) {
-    // エラーハンドリング: エラーが発生した場合は、500のステータスコードとともにエラーメッセージを返します。
+    console.error("エラーが発生しました:", error.message);
     res.status(500).json({ error: error instanceof Error ? error.message : "Unknown error" });
-  }
+  }    
 }
-
-
-
