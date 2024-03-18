@@ -82,7 +82,7 @@ export async function style_bert_vits2(
 
   // デバッグ
   // これで、サーバーから受け取ったBlobの内容の一部と、FileReaderがエラーを出した場合のエラー内容が出力されるはずです。この情報から、問題の原因を特定できるかもしれません。
-  dumpBlob(blob);
+  // dumpBlob(blob);
 
   
 
@@ -90,48 +90,61 @@ export async function style_bert_vits2(
   console.log(`Blob type: ${blob.type}`);
   console.log(`Blob size: ${blob.size}`);
   
-  const base64Encoded = await blobToBase64(blob);
-  console.log(`結果を返す前にBase64エンコードされた最初の10文字を確認: ${base64Encoded.slice(0, 10)}`);
-  return base64Encoded;
+
+  // BlobをArrayBufferに変換
+  const arrayBuffer = await blob.arrayBuffer();
+
+  // ArrayBufferをBase64エンコードした文字列に変換
+  const base64String = btoa(String.fromCharCode(...new Uint8Array(arrayBuffer)));
+
+  console.log(`Base64 encoded string: ${base64String}`);
+
+  // Base64エンコードされた文字列を返す
+  return base64String;
+}
+
+  // const base64Encoded = await blobToBase64(blob);
+  // console.log(`結果を返す前にBase64エンコードされた最初の10文字を確認: ${base64Encoded.slice(0, 10)}`);
+  // return base64Encoded;
   
   // BlobをBase64エンコードされた文字列に変換
   // ★ここがうまくいっていない
-  function blobToBase64(blob: Blob): Promise<string> {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
+//   function blobToBase64(blob: Blob): Promise<string> {
+//     return new Promise((resolve, reject) => {
+//       const reader = new FileReader();
       
-      // reader.onload = () => {
-      //   const base64data = reader.result as string;
-      //   const base64Encoded = base64data.split(',')[1];
-      //   resolve(base64Encoded);
-      // };
+//       // reader.onload = () => {
+//       //   const base64data = reader.result as string;
+//       //   const base64Encoded = base64data.split(',')[1];
+//       //   resolve(base64Encoded);
+//       // };
 
-      reader.onload = () => {
-        const binaryStr = reader.result;
-        if (binaryStr !== null) {
-          console.log("Blob contents (first 100 bytes):", binaryStr.slice(0, 100));
-        } else {
-          console.error("Failed to read blob as binary string");
-        }
-      };
+//       reader.onload = () => {
+//         const binaryStr = reader.result;
+//         if (binaryStr !== null) {
+//           console.log("Blob contents (first 100 bytes):", binaryStr.slice(0, 100));
+//         } else {
+//           console.error("Failed to read blob as binary string");
+//         }
+//       };
 
-      reader.onerror = (event) => {
-        console.error("Error reading blob as binary string:", event);
-        reject("Failed to read blob as base64");      
-      };
-      reader.readAsDataURL(blob);
-    });
-  }
+//       reader.onerror = (event) => {
+//         console.error("Error reading blob as binary string:", event);
+//         reject("Failed to read blob as base64");      
+//       };
+//       reader.readAsDataURL(blob);
+//     });
+//   }
 
-  function dumpBlob(blob: Blob) {
-    const reader = new FileReader();
-    reader.onload = () => {
-      const binaryStr = reader.result;
-      console.log("Blob contents (first 100 bytes):", binaryStr.slice(0, 100));
-    };
-    reader.readAsBinaryString(blob);
-  }
-}
+//   function dumpBlob(blob: Blob) {
+//     const reader = new FileReader();
+//     reader.onload = () => {
+//       const binaryStr = reader.result;
+//       console.log("Blob contents (first 100 bytes):", binaryStr.slice(0, 100));
+//     };
+//     reader.readAsBinaryString(blob);
+//   }
+// }
 
 
 
