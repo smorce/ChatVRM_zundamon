@@ -7,6 +7,26 @@
  * @returns Base64エンコードされた音声データの文字列をPromiseで返します。
  */
 
+
+
+function blobToBase64(blob: Blob): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const fileReader = new FileReader();
+    console.log(`fileReader１: ${fileReader}`);
+    fileReader.onload = () => {
+      resolve(fileReader.result as string);
+    };
+    fileReader.onerror = (error) => {
+      console.log(`error: ${error}`);
+      reject(error);
+    };
+    console.log(`fileReader２: ${fileReader}`);
+    fileReader.readAsDataURL(blob);
+  });
+}
+
+
+
 export async function style_bert_vits2(
   message: string,
   speaker_id: number = 0,
@@ -78,6 +98,7 @@ export async function style_bert_vits2(
   }
 
   // レスポンスの内容（Blob）を取得
+  console.log(`koeiromap: Response: ${response}`);
   const blob = await response.blob();
 
   // デバッグ
@@ -85,77 +106,83 @@ export async function style_bert_vits2(
   // dumpBlob(blob);
   
   // 音声を取得して再生する関数内の一部を変更
-  if (response.ok) {
-    console.log("aaa") 
-    // const blob = await response.blob();
-    console.log("bbb")
-    // Blobからオーディオを生成し、再生する
-    const url = URL.createObjectURL(blob);
-    console.log("ccc")  // ここまではいった
-    console.log(url)
+  // if (response.ok) {
+  //   console.log("aaa") 
+  //   // const blob = await response.blob();
+  //   console.log("bbb")
+  //   // Blobからオーディオを生成し、再生する
+  //   const url = URL.createObjectURL(blob);
+  //   console.log("ccc")  // ここまではいった
+  //   console.log(url)    // 正常だった
 
 
-    // ダウンロードリンクを作成
-    const downloadLink = document.createElement('a');
-    downloadLink.href = url;
-    downloadLink.download = 'audiofile.wav'; // 保存するファイルの名前
+    // // ダウンロードリンクを作成
+    // const downloadLink = document.createElement('a');
+    // downloadLink.href = url;
+    // downloadLink.download = 'audiofile.wav'; // 保存するファイルの名前
 
-    // リンクをドキュメントに追加してクリックする（ユーザーに見えないようにすることも可能）
-    document.body.appendChild(downloadLink);
-    downloadLink.click();
+    // // リンクをドキュメントに追加してクリックする（ユーザーに見えないようにすることも可能）
+    // document.body.appendChild(downloadLink);
+    // downloadLink.click();
 
-    // リンクをドキュメントから削除
-    document.body.removeChild(downloadLink);
+    // // リンクをドキュメントから削除
+    // document.body.removeChild(downloadLink);
 
-    // 使用済みのURLを解放
-    URL.revokeObjectURL(url);
-
-
-
+    // // 使用済みのURLを解放
+    // URL.revokeObjectURL(url);
 
 
 
-    // 既存の<audio>要素を使用する
-    // 非同期処理が問題になっている
-    const audioPlayer = document.getElementById('audioPlayer') as HTMLAudioElement;
-    console.log("ddd")
-    if (audioPlayer) {
-      audioPlayer.src = url;
-      audioPlayer.play()
-          .then(() => console.log("音声再生を開始しました。"))
-          .catch(e => console.error("音声再生に失敗しました。", e));
-    } else {
-      console.error('audioPlayer要素が見つかりません。');
-    }
-  } else {
-      console.log("リクエストに失敗しました。");
-      response.json().then(data => console.log("エラーメッセージ:", JSON.stringify(data)));
-  }
+
+
+
+  //   // 既存の<audio>要素を使用する
+  //   // 非同期処理が問題になっている
+  //   const audioPlayer = document.getElementById('audioPlayer') as HTMLAudioElement;
+  //   console.log("ddd")
+  //   if (audioPlayer) {
+  //     audioPlayer.src = url;
+  //     audioPlayer.play()
+  //         .then(() => console.log("音声再生を開始しました。"))
+  //         .catch(e => console.error("音声再生に失敗しました。", e));
+  //   } else {
+  //     console.error('audioPlayer要素が見つかりません。');
+  //   }
+  // } else {
+  //     console.log("リクエストに失敗しました。");
+  //     response.json().then(data => console.log("エラーメッセージ:", JSON.stringify(data)));
+  // }
   
 
   // audio/wav タイプであり、空でないことを確認する
   console.log(`Blob type: ${blob.type}`);
   console.log(`Blob size: ${blob.size}`);
   
-  // Convert Blob to Base64
+  const base64String = await blobToBase64(blob);
+  console.log(`Base64 string: ${base64String}`);
 
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      // `result`が`string`型の場合のみ、resolveする
-      console.log(`reader.result: ${reader.result}`);
-
-      if (typeof reader.result === 'string') {
-        resolve(reader.result);
-      } else {
-        console.log(`読み込まれたデータは文字列ではありません。`);
-        reject(new Error('読み込まれたデータは文字列ではありません。'));
-      }
-    };
-    reader.onerror = () => reject(reader.error);
-    reader.readAsDataURL(blob);
-  });
+  return base64String;
 }
+
+
+  // Convert Blob to Base64
+//   return new Promise((resolve, reject) => {
+//     const reader = new FileReader();
+//     reader.onloadend = () => {
+//       // `result`が`string`型の場合のみ、resolveする
+//       console.log(`reader.result: ${reader.result}`);
+
+//       if (typeof reader.result === 'string') {
+//         resolve(reader.result);
+//       } else {
+//         console.log(`読み込まれたデータは文字列ではありません。`);
+//         reject(new Error('読み込まれたデータは文字列ではありません。'));
+//       }
+//     };
+//     reader.onerror = () => reject(reader.error);
+//     reader.readAsDataURL(blob);
+//   });
+// }
 
 
 
