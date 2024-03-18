@@ -79,6 +79,12 @@ export async function style_bert_vits2(
 
   // レスポンスの内容（Blob）を取得
   const blob = await response.blob();
+  
+  // audio/wav タイプであり、空でないことを確認する
+  console.log(`Blob type: ${blob.type}`);
+  console.log(`Blob size: ${blob.size}`);
+  
+  
   // BlobをBase64エンコードされた文字列に変換
   return new Promise<string>((resolve, reject) => {
     const reader = new FileReader();
@@ -92,7 +98,10 @@ export async function style_bert_vits2(
       // 結果を返す
       resolve(base64Encoded);
     };
-    reader.onerror = () => reject("Failed to read blob as base64");
+    reader.onerror = () => {
+      console.error("Failed to read blob as base64");
+      reject("Failed to read blob as base64");
+    };
     // FileReaderでBlobを読み込む
     reader.readAsDataURL(blob);
   });
