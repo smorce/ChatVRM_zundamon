@@ -52,10 +52,8 @@ export async function synthesizeVoiceApi(
   // 上記の res は以下の形式。res は handler から渡された NextApiResponse<Data> 形式。
   // res.status(200).json({ audio: base64 });
 
-  console.log(`SynthesizVvoice: resの確認: ${res}`);
-  const data = (await res.json()) as any;       // ★ココがあやしいと思ったけど、これで良さそう
-  console.log(`SynthesizVvoice: dataの確認: ${data}`);
-  return { audio: data.audio };                 // ★ココがあやしいと思ったけど、これで良さそう
+  const data = (await res.json()) as any;
+  return { audio: data.audio };
 }
 
 

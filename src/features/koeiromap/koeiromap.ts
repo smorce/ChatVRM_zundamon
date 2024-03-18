@@ -44,8 +44,6 @@ export async function style_bert_vits2(
       given_tone: given_tone                     // トーン指定の有無
     };
   
-  message = 'デバッグなのだ'
-  
   // URLを構築し、クエリパラメータ`text`を追加
   // ★URL は毎回書き換える
   const PUBLIC_URL = "https://798a-34-138-166-34.ngrok-free.app";
@@ -53,7 +51,6 @@ export async function style_bert_vits2(
   url.searchParams.append('text', message); // `message`をクエリパラメータに追加
 
   // リクエストのURLとパラメータをコンソールに出力
-  // ★ココはできている
   console.log(`koeiromap: メッセージの確認: ${message}`);
   console.log(`koeiromap: Requesting URL: ${url}`);
   console.log(`koeiromap: With params: ${JSON.stringify(body)}`);
@@ -71,7 +68,6 @@ export async function style_bert_vits2(
   );
 
   // レスポンスのステータスをコンソールに出力
-  // ★ここも200になっている
   console.log(`koeiromap: Response status: ${response.status}`);
 
   return response.blob();
