@@ -49,8 +49,8 @@ export async function style_bert_vits2(
     },
   };
 
-  // 実際のAPIのエンドポイントURLに置き換えてください
-  const PUBLIC_URL = "https://29a2-34-87-89-240.ngrok-free.app/docs";
+  // ★URL は毎回書き換える
+  const PUBLIC_URL = "https://f431-34-90-206-27.ngrok-free.app";
   // fetchを使用してAPIリクエストを送信
   const response = await fetch(`${PUBLIC_URL}/voice`, param);
 
