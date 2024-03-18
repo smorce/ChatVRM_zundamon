@@ -1,5 +1,5 @@
 import { VRMExpression, VRMExpressionPresetName } from "@pixiv/three-vrm";
-import { KoeiroParam } from "../constants/koeiroParam";
+// import { KoeiroParam } from "../constants/koeiroParam";
 
 // ChatGPT API
 export type Message = {
@@ -18,10 +18,25 @@ const talkStyles = [
 export type TalkStyle = (typeof talkStyles)[number];
 
 export type Talk = {
-  style: TalkStyle;
-  speakerX: number;
-  speakerY: number;
+  // style: TalkStyle;
+  // speakerX: number;
+  // speakerY: number;
+  // message: string;
   message: string;
+  speaker_id: number;
+  sdp_ratio: number;
+  noise: number;
+  noisew: number;
+  length: number;
+  language: string;
+  auto_split: string;     // string に変更
+  split_interval: number;
+  assist_text: string | null;
+  assist_text_weight: number;
+  style: string;
+  style_weight: number;
+  reference_audio_path: string | null;
+  given_tone: boolean;
 };
 
 const emotions = ["neutral", "happy", "angry", "sad", "relaxed"] as const;
@@ -40,9 +55,10 @@ export const splitSentence = (text: string): string[] => {
   return splitMessages.filter((msg) => msg !== "");
 };
 
+// 感情表現のタグを抽出して設定する
 export const textsToScreenplay = (
-  texts: string[],
-  koeiroParam: KoeiroParam
+  texts: string[]
+  // koeiroParam: KoeiroParam
 ): Screenplay[] => {
   const screenplays: Screenplay[] = [];
   let prevExpression = "neutral";
@@ -64,10 +80,25 @@ export const textsToScreenplay = (
     screenplays.push({
       expression: expression as EmotionType,
       talk: {
-        style: emotionToTalkStyle(expression as EmotionType),
-        speakerX: koeiroParam.speakerX,
-        speakerY: koeiroParam.speakerY,
+        // style: emotionToTalkStyle(expression as EmotionType),
+        // speakerX: koeiroParam.speakerX,
+        // speakerY: koeiroParam.speakerY,
+        // message: message,
         message: message,
+        speaker_id: 0,
+        sdp_ratio: 0.6,
+        noise: 0.6,
+        noisew: 0.8,
+        length: 0.8,
+        language: 'JP',
+        auto_split: 'true',
+        split_interval: 1,
+        assist_text: null,
+        assist_text_weight: 1.0,
+        style: 'Neutral',
+        style_weight: 5.0,
+        reference_audio_path: null,
+        given_tone: false,
       },
     });
   }

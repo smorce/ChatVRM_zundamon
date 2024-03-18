@@ -12,7 +12,7 @@ const createSpeakCharacter = () => {
   return (
     screenplay: Screenplay,
     viewer: Viewer,
-    koeiroApiKey: string,
+    // koeiroApiKey: string,
     onStart?: () => void,
     onComplete?: () => void
   ) => {
@@ -22,7 +22,8 @@ const createSpeakCharacter = () => {
         await wait(1000 - (now - lastTime));
       }
 
-      const buffer = await fetchAudio(screenplay.talk, koeiroApiKey).catch(
+      // const buffer = await fetchAudio(screenplay.talk, koeiroApiKey).catch(
+      const buffer = await fetchAudio(screenplay.talk).catch(
         () => null
       );
       lastTime = Date.now();
@@ -48,16 +49,31 @@ const createSpeakCharacter = () => {
 export const speakCharacter = createSpeakCharacter();
 
 export const fetchAudio = async (
-  talk: Talk,
-  apiKey: string
+  talk: Talk
+  // apiKey: string
 ): Promise<ArrayBuffer> => {
   const ttsVoice = await synthesizeVoiceApi(
+    // talk.message,
+    // talk.speakerX,
+    // talk.speakerY,
+    // talk.style,
+    // apiKey
     talk.message,
-    talk.speakerX,
-    talk.speakerY,
+    talk.speaker_id,
+    talk.sdp_ratio,
+    talk.noise,
+    talk.noisew,
+    talk.length,
+    talk.language,
+    talk.auto_split,
+    talk.split_interval,
+    talk.assist_text,
+    talk.assist_text_weight,
     talk.style,
-    apiKey
-  );
+    talk.style_weight,
+    talk.reference_audio_path,
+    talk.given_tone
+    );
   const url = ttsVoice.audio;
 
   if (url == null) {
