@@ -19,20 +19,24 @@ import { Meta } from "@/components/meta";
 
 // デバッグ ================================
 import React, { useRef } from 'react';
-
-export default function Home() {
-  const audioRef = useRef<HTMLAudioElement>(null);
-
-  const playAudio = () => {
-    if (audioRef.current) {
-      audioRef.current.play();
-    }
-  };
 // デバッグ ================================
 
 
 export default function Home() {
   const { viewer } = useContext(ViewerContext);
+
+
+  // デバッグ ================================
+  const audioRef = useRef<HTMLAudioElement>(null);
+
+    const playAudio = () => {
+      if (audioRef.current) {
+        audioRef.current.play();
+      }
+    };
+  // デバッグ ================================
+
+
 
   const [systemPrompt, setSystemPrompt] = useState(SYSTEM_PROMPT);
   const [openAiKey, setOpenAiKey] = useState("");
