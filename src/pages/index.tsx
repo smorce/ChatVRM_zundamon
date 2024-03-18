@@ -79,6 +79,7 @@ export default function Home() {
 
   /**
    * 文ごとに音声を直列でリクエストしながら再生する
+   * SpeakAiと書いてあるので、ここで合成音声を作ってるのかも
    */
   const handleSpeakAi = useCallback(
     async (

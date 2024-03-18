@@ -1,28 +1,39 @@
 // ここでBlobをBase64エンコーディングされたテキストに変換する
 // このファイルはサーバーサイドで、クライアントからのリクエストデータの受け取り、リクエストに基づいた処理の実行（データベースへの問い合わせ、外部APIの呼び出し、ビジネスロジックの適用など）、処理結果のクライアントへの返信 などを行う
+// よって、FileReaderはブラウザのAPIであり、Node.jsの標準ライブラリには含まれていません。そのため、Next.jsのAPIルートや他のNode.js環境でこのコードを実行しようとすると
+// FileReader is not defined というエラーが発生する
 
 import { style_bert_vits2 } from "@/features/koeiromap/koeiromap";
 
 console.log(`TTS: デバッグ出力 aaa`);
 
 import type { NextApiRequest, NextApiResponse } from "next";
+import { Blob } from 'fetch-blob';
 
 console.log(`TTS: デバッグ出力 bbb`);
 
 
+// 以下はクライアントサイドのコードであり、このファイルはサーバーサイドなので動作しない
 // BlobをBase64エンコーディングされたテキストに変換する関数
-const blobToBase64 = (blob: Blob): Promise<string> => {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      resolve(reader.result as string);
-    };
-    reader.onerror = () => {
-      reject(new Error('BlobをBase64に変換中にエラーが発生しました'));
-    };
-    reader.readAsDataURL(blob);
-  });
-};
+// const blobToBase64 = (blob: Blob): Promise<string> => {
+//   return new Promise((resolve, reject) => {
+//     const reader = new FileReader();
+//     reader.onloadend = () => {
+//       resolve(reader.result as string);
+//     };
+//     reader.onerror = () => {
+//       reject(new Error('BlobをBase64に変換中にエラーが発生しました'));
+//     };
+//     reader.readAsDataURL(blob);
+//   });
+// };
+
+
+// サーバーサイドでやる場合は、BlobをBufferに変換し、そのBufferをBase64文字列にエンコーディングする処理をしないといけない
+async function blobToBuffer(blob: Blob): Promise<Buffer> {
+  const arrayBuffer = await blob.arrayBuffer();
+  return Buffer.from(arrayBuffer);
+}
 
 
 // Data型を拡張して、エラー情報をオプショナルで持てるようにします。
@@ -73,8 +84,11 @@ export default async function handler(
       given_tone
     );
 
-    // BlobをBase64エンコーディングされたテキストに変換し、コンソールに表示
-    const base64 = await blobToBase64(blob);
+    // Step1. BlobをBufferに変換
+    const buffer = await blobToBuffer(blob);
+
+    // Step2. BufferからBase64文字列に変換
+    const base64 = buffer.toString('base64');
     // 最初の10文字だけ表示
     console.log(`Base64エンコーディングされた音声データ: ${base64.substring(0, 10)}...`);
 
