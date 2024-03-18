@@ -79,7 +79,13 @@ export async function style_bert_vits2(
 
   // レスポンスの内容（Blob）を取得
   const blob = await response.blob();
+
+  // デバッグ
+  // これで、サーバーから受け取ったBlobの内容の一部と、FileReaderがエラーを出した場合のエラー内容が出力されるはずです。この情報から、問題の原因を特定できるかもしれません。
+  dumpBlob(blob);
+
   
+
   // audio/wav タイプであり、空でないことを確認する
   console.log(`Blob type: ${blob.type}`);
   console.log(`Blob size: ${blob.size}`);
@@ -89,6 +95,7 @@ export async function style_bert_vits2(
   return base64Encoded;
   
   // BlobをBase64エンコードされた文字列に変換
+  // ★ここがうまくいっていない
   function blobToBase64(blob: Blob): Promise<string> {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -97,12 +104,21 @@ export async function style_bert_vits2(
         const base64Encoded = base64data.split(',')[1];
         resolve(base64Encoded);
       };
-      reader.onerror = () => {
-        console.error("Failed to read blob as base64");
-        reject("Failed to read blob as base64");
+      reader.onerror = (event) => {
+        console.error("Failed to read blob as base64", event);
+        reject("Failed to read blob as base64");      
       };
       reader.readAsDataURL(blob);
     });
+  }
+
+  function dumpBlob(blob: Blob) {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const binaryStr = reader.result;
+      console.log("Blob contents (first 100 bytes):", binaryStr.slice(0, 100));
+    };
+    reader.readAsBinaryString(blob);
   }
 }
 
