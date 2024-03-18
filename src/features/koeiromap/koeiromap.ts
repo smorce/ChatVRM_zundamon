@@ -91,10 +91,14 @@ export async function style_bert_vits2(
     const url = URL.createObjectURL(blob);
     // 既存の<audio>要素を使用する
     const audioPlayer = document.getElementById('audioPlayer');
-    audioPlayer.src = url;
-    audioPlayer.play()
-        .then(() => console.log("音声再生を開始しました。"))
-        .catch(e => console.error("音声再生に失敗しました。", e));
+    if (audioPlayer) {
+      audioPlayer.src = url;
+      audioPlayer.play()
+          .then(() => console.log("音声再生を開始しました。"))
+          .catch(e => console.error("音声再生に失敗しました。", e));
+    } else {
+      console.error('audioPlayer要素が見つかりません。');
+    }
   } else {
       console.log("リクエストに失敗しました。");
       response.json().then(data => console.log("エラーメッセージ:", JSON.stringify(data)));
