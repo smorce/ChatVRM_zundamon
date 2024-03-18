@@ -2,8 +2,10 @@ import { style_bert_vits2 } from "@/features/koeiromap/koeiromap";
 
 import type { NextApiRequest, NextApiResponse } from "next";
 
+// Data型を拡張して、エラー情報をオプショナルで持てるようにします。
 type Data = {
-  audio: string;
+  audio?: string;
+  error?: string;
 };
 
 export default async function handler(
