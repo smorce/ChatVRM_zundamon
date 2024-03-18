@@ -1,4 +1,5 @@
 // ここでBlobをBase64エンコーディングされたテキストに変換する
+// このファイルはサーバーサイドで、クライアントからのリクエストデータの受け取り、リクエストに基づいた処理の実行（データベースへの問い合わせ、外部APIの呼び出し、ビジネスロジックの適用など）、処理結果のクライアントへの返信 などを行う
 
 import { style_bert_vits2 } from "@/features/koeiromap/koeiromap";
 
@@ -80,7 +81,14 @@ export default async function handler(
     // 成功したレスポンスをクライアントに返します。本のコードの voice は { audio: base64 } というJSONデータ(keyがaudio, value の base64 がBase64エンコーディングされた音声データ)なので、こちらもJSONデータにする。
     res.status(200).json({ audio: base64 });
   } catch (error) {
-    console.error("エラーが発生しました:", error.message);
-    res.status(500).json({ error: error instanceof Error ? error.message : "Unknown error" });
+    // `error`が`Error`のインスタンスであるかを確認
+    if (error instanceof Error) {
+      console.error("エラーが発生しました:", error.message);
+      res.status(500).json({ error: error.message });
+    } else {
+      // `error`が`Error`のインスタンスでない場合の処理
+      console.error("予期せぬエラーが発生しました:", error);
+      res.status(500).json({ error: "Unknown error" });
+    }
   }    
 }
