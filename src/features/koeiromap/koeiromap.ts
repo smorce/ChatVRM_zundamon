@@ -51,7 +51,7 @@ export async function style_bert_vits2(
 
 
   // `fetch`を使用してAPIリクエストを送信、URLにクエリパラメータを含める
-  const response = await fetch(url.toString(), {
+  const response = await fetch(url, {
     method: 'POST',
     body: JSON.stringify(params),
     headers: {
