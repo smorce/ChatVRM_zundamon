@@ -39,7 +39,7 @@ export async function getChatResponseStream(
     // Authorization: `Bearer ${apiKey}`,
   };
   // ★URL は毎回書き換える
-  const PUBLIC_URL = "https://485b-5-2-174-20.ngrok-free.app";
+  const PUBLIC_URL = "https://48ea-35-188-106-15.ngrok-free.app";
   const res = await fetch(`${PUBLIC_URL}/v1/chat/completions`, {
     headers: headers,
     method: "POST",

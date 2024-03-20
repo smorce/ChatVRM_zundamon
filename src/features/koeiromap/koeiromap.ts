@@ -46,7 +46,7 @@ export async function style_bert_vits2(
   
   // URLを構築し、クエリパラメータ`text`を追加
   // ★URL は毎回書き換える
-  const PUBLIC_URL = "https://798a-34-138-166-34.ngrok-free.app";
+  const PUBLIC_URL = "https://9dcb-34-125-241-213.ngrok-free.app";
   const url = new URL(`${PUBLIC_URL}/voice`);
   url.searchParams.append('text', message); // `message`をクエリパラメータに追加
 

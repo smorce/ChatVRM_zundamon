@@ -1,3 +1,11 @@
+# 使い方
+LLMサーバーと音声サーバーを立ち上げて以下2つのPUBLIC_URLを更新する
+- ChatVRM_zundamon\src\features\koeiromap
+- koeiromap.ts
+- ChatVRM_zundamon\src\features\chat
+- openAiChat.ts
+- 更新後にPUSHする
+
 # ChatVRM
 
 ChatVRMはブラウザで簡単に3Dキャラクターと会話ができるデモアプリケーションです。
